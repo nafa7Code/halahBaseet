@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>حلّها بسيط</title>
+    <style>
+      body {
+        font-family: "Tahoma", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f3f4f6;
+        color: #333;
+      }
+
+      .hero {
+        background: linear-gradient(to left, #0077b6, #00b4d8);
+        color: white;
+        text-align: center;
+        padding: 3rem 1rem;
+      }
+
+      .hero h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 2rem auto;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      textarea,
+      select,
+      button {
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        background-color: #0077b6;
+        color: white;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background-color: #023e8a;
+      }
+
+      #excuseOutput {
+        display: none;
+        background-color: #e0f7fa;
+        padding: 1rem;
+        border-radius: 6px;
+        margin-top: 1rem;
+        border: 1px solid #00acc1;
+      }
+
+      #resultMessage {
+        font-weight: bold;
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      #loadingSpinner {
+        display: none;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #0077b6;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- الهيدر -->
+    <div id="header-placeholder"></div>
+
+    <section class="hero">
+      <h2>معنا دايم الحل بسيط</h2>
+      <p>شاركنا مشكلتك، ونساعدك تلقى حل فعّال يناسبك وبطريقتك.</p>
+    </section>
+
+    <div class="container">
+      <form id="problemForm">
+        <label for="problem">وش المشكلة؟</label>
+        <textarea
+          id="problem"
+          name="problem"
+          rows="5"
+          placeholder="اكتب مشكلتك هنا بالتفصيل..."
+          required
+        ></textarea>
+
+        <label for="tone">اختر نغمة الرد:</label>
+        <select id="tone" name="tone" required>
+          <option value="">اختر نغمة</option>
+          <option value="واقعي">واقعي</option>
+          <option value="مضحك">مضحك</option>
+          <option value="ساخر">ساخر</option>
+          <option value="غريب">غريب</option>
+        </select>
+
+        <button type="submit">أرسل مشكلتك</button>
+      </form>
+
+      <div id="loadingSpinner">⏳ جاري توليد العذر...</div>
+
+      <div id="resultMessage"></div>
+
+      <div id="excuseOutput">
+        <strong>📣 هذا هو عذرك:</strong>
+        <p id="excuseText" style="margin-top: 0.5rem"></p>
+      </div>
+    </div>
+
+    <!-- الفوتر -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+      // تحميل أجزاء الصفحة (header + footer)
+      function loadFragment(selector, file) {
+        fetch(file)
+          .then((response) => response.text())
+          .then((html) => {
+            document.querySelector(selector).innerHTML = html;
+          });
+      }
+
+      loadFragment("#header-placeholder", "header.html");
+      loadFragment("#footer-placeholder", "footer.html");
+
+      // إرسال النموذج
+      document
+        .getElementById("problemForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const problem = document.getElementById("problem").value.trim();
+          const tone = document.getElementById("tone").value;
+
+          if (!problem || !tone) {
+            alert("فضلاً، أكمل كل الحقول");
+            return;
+          }
+
+          document.getElementById("loadingSpinner").style.display = "block";
+
+          const payload = {
+            problem: problem,
+            tone: tone,
+          };
+
+          fetch("https://n8nreil.nafa7lms.com/webhook/case-recived", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          })
+            .then((response) => {
+              if (!response.ok) throw new Error("فشل في الإرسال");
+              return response.json();
+            })
+            .then((data) => {
+              document.getElementById("loadingSpinner").style.display = "none";
+              document.getElementById("excuseText").innerText =
+                data.output || "لا يوجد رد.";
+              document.getElementById("excuseOutput").style.display = "block";
+              document.getElementById("resultMessage").innerText = "";
+              document.getElementById("problemForm").reset();
+            })
+            .catch((error) => {
+              document.getElementById("loadingSpinner").style.display = "none";
+              document.getElementById("resultMessage").innerText =
+                "❌ حدث خطأ أثناء الإرسال.";
+              document.getElementById("excuseOutput").style.display = "none";
+              console.error("خطأ:", error);
+            });
+        });
+    </script>
+  </body>
+</html>
