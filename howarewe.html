@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>من نحن | حلّها بسيط</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="header-placeholder"></div>
+
+    <main style="padding: 2rem; text-align: center">
+      <h2 style="color: #0077b6">من نحن؟</h2>
+      <p>
+        "حلّها بسيط" هو مشروع سعودي يساعدك على التعامل مع المواقف المحرجة
+        والمشاكل اليومية عبر تقديم أعذار مبتكرة ومقنعة باستخدام الذكاء
+        الاصطناعي.
+      </p>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+      // تحميل الهيدر وتفعيل القائمة
+      function loadFragment(selector, file, callback) {
+        fetch(file)
+          .then((response) => response.text())
+          .then((html) => {
+            document.querySelector(selector).innerHTML = html;
+            if (callback) callback();
+          });
+      }
+
+      loadFragment("#header-placeholder", "header.html", function () {
+        const toggleButton = document.querySelector(".menu-toggle");
+        const navMenu = document.getElementById("menu");
+
+        if (toggleButton && navMenu) {
+          toggleButton.addEventListener("click", () => {
+            navMenu.classList.toggle("show");
+          });
+        }
+      });
+
+      loadFragment("#footer-placeholder", "footer.html");
+    </script>
+  </body>
+</html>

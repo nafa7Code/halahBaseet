@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>كيف يعمل؟ - حلّها بسيط</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Tahoma, sans-serif;
+        margin: 0;
+        padding-bottom: 60px;
+        background-color: #f3f4f6;
+      }
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+      }
+      h2 {
+        color: #0077b6;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header-placeholder"></div>
+
+    <div class="container">
+      <h2>كيف يعمل التطبيق؟</h2>
+      <ol>
+        <li>المستخدم يشارك مشكلته عبر النموذج.</li>
+        <li>يختار نغمة الرد (واقعي، مضحك، ساخر...)</li>
+        <li>نرسل الطلب إلى الذكاء الاصطناعي عبر n8n.</li>
+        <li>يرجع الرد باللهجة السعودية فوراً.</li>
+        <li>يظهر للمستخدم على الصفحة الرئيسية.</li>
+      </ol>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+      function loadFragment(selector, file, callback) {
+        fetch(file)
+          .then((response) => response.text())
+          .then((html) => {
+            document.querySelector(selector).innerHTML = html;
+            if (callback) callback();
+          });
+      }
+
+      loadFragment("#header-placeholder", "header.html", function () {
+        const toggleButton = document.querySelector(".menu-toggle");
+        const navMenu = document.getElementById("menu");
+        if (toggleButton && navMenu) {
+          toggleButton.addEventListener("click", () => {
+            navMenu.classList.toggle("show");
+          });
+        }
+      });
+
+      loadFragment("#footer-placeholder", "footer.html");
+    </script>
+  </body>
+</html>

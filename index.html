@@ -100,6 +100,24 @@
       <p>شاركنا مشكلتك، ونساعدك تلقى حل فعّال يناسبك وبطريقتك.</p>
     </section>
 
+    <div style="display: flex; justify-content: center; margin-top: 2rem">
+      <video
+        controls
+        autoplay
+        muted
+        loop
+        style="
+          width: 70%;
+          max-width: 500px;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        "
+      >
+        <source src="video1.mp4" type="video/mp4" />
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+    </div>
+
     <div class="container">
       <form id="problemForm">
         <label for="problem">وش المشكلة؟</label>
@@ -137,16 +155,28 @@
     <div id="footer-placeholder"></div>
 
     <script>
-      // تحميل أجزاء الصفحة (header + footer)
-      function loadFragment(selector, file) {
+      // تحميل أجزاء الصفحة (header + footer) مع تنفيذ سكربت القائمة بعد إدراج الهيدر
+      function loadFragment(selector, file, callback) {
         fetch(file)
           .then((response) => response.text())
           .then((html) => {
             document.querySelector(selector).innerHTML = html;
+            if (callback) callback();
           });
       }
 
-      loadFragment("#header-placeholder", "header.html");
+      loadFragment("#header-placeholder", "header.html", function () {
+        // تفعيل القائمة المنسدلة
+        const toggleButton = document.querySelector(".menu-toggle");
+        const navMenu = document.getElementById("menu");
+
+        if (toggleButton && navMenu) {
+          toggleButton.addEventListener("click", () => {
+            navMenu.classList.toggle("show");
+          });
+        }
+      });
+
       loadFragment("#footer-placeholder", "footer.html");
 
       // إرسال النموذج

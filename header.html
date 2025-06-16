@@ -1,3 +1,125 @@
-<header style="background-color: #004b7c; padding: 1rem; color: white">
-  <h1 style="margin: 200">🧠 حلّها بسيط</h1>
+<header class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <img src="logo.png" alt="شعار الموقع" />
+      <h1>حلّها بسيط</h1>
+    </div>
+
+    <div class="menu-toggle">☰</div>
+
+    <ul class="nav-links" id="menu">
+      <li><a href="index.html">الرئيسية</a></li>
+      <li><a href="howarewe.html">من نحن</a></li>
+      <li><a href="How_it_work.html">كيف يعمل؟</a></li>
+      <li><a href="example.html">أمثلة</a></li>
+      <li><a href="question.html">الأسئلة</a></li>
+      <li><a href="contact_us.html">تواصل معنا</a></li>
+    </ul>
+  </div>
 </header>
+
+<style>
+  .navbar {
+    background-color: #0077b6;
+    color: white;
+    padding: 1rem 1.5rem;
+  }
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+    margin-left: 10px;
+  }
+
+  .navbar-logo h1 {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .menu-toggle {
+    display: block;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
+  .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+    flex-direction: column;
+    background-color: #0077b6;
+    width: 100%;
+  }
+
+  .nav-links.show {
+    display: flex;
+    animation: slideDown 0.3s ease-in-out;
+  }
+
+  .nav-links li {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  @media (min-width: 769px) {
+    .menu-toggle {
+      display: none;
+    }
+
+    .nav-links {
+      display: flex !important;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 1.5rem;
+      width: auto;
+      background: none;
+    }
+
+    .nav-links li {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleButton = document.querySelector(".menu-toggle");
+    const navMenu = document.getElementById("menu");
+
+    if (toggleButton && navMenu) {
+      toggleButton.addEventListener("click", () => {
+        navMenu.classList.toggle("show");
+      });
+    }
+  });
+</script>
